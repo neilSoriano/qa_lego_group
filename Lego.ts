@@ -22,6 +22,7 @@ export class Lego {
     over100: By = By.xpath("//a[@data-analytics-title='price-band-e']");
     // locator for all prices on a page
     productPrices: By = By.xpath("//span[@data-test='product-price']");
+    // productPrices: By = By.xpath("//div[@data-test='product-leaf-price']");
 
     constructor(driver: WebDriver) {
         this.driver = driver;
@@ -62,4 +63,31 @@ export class Lego {
         return this.driver.findElement(elementBy).click();
 
     }
+    /**
+     * Returns an array of strings containing; text appearing from prices on page
+     * prices[] will return a substring of the prices, showing only the numbers.
+     * @returns the prices of the legos in an array
+     * @example
+     * await page.getPrices();
+     */
+    async getPrices() {
+        let prices = [];
+        await this.driver.wait(until.elementsLocated(this.productPrices));
+        let elements = await this.driver.findElements(this.productPrices);
+        for(let i = 0; i < elements.length; i++) {
+            prices.push(await (await (await elements[i].getText()).substring(7, 13)));
+        }
+        // for(let i=0; i < results.length; i++) {
+        //     if(results[i] > 100) {
+        //         console.log(results[i] + " is greater than $100");
+        //     }
+        // }
+        console.log(prices);
+        return prices;
+    }
+
+    // async comparePrices() {
+    //     let prices = await this.driver.findElement(this.productPrices);
+    //     console.log(prices);
+    // }
 }
