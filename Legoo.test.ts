@@ -12,10 +12,14 @@ const page = new Lego(driver);
 
 test("Test Checkout Process", async () => {
   await page.checkoutProcess();
-  await page.typePiano("Grand Piano");
-  // await page.continueProcess();
-  // await page.typeFirstName('Greg');
-  // await page.typeLastName('Smith');
+  await page.sendKeys(page.searchInput,"Grand Piano\n");
+  await driver.sleep(3000);
+  await page.continueProcess();
+  await driver.sleep(3000);
+  await page.typeFirstName('Greg');
+  await page.typeLastName('Smith');
+
+  await driver.sleep(3000);
 });
 
 afterAll(async () => {
