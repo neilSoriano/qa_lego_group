@@ -2,67 +2,34 @@ import { By, until, WebDriver } from "selenium-webdriver";
 //Imported Boiler Plate/Page Object model ^^^^^^^^^^^^^^^^^^^^^^
 
 //Here we export our class "Lego" from our test file
-export class Lego {
+export class wishlist {
   driver: WebDriver;
-
   url: string = "https://www.lego.com/en-us";
 
   //Below we should change the variables for our xpaths to accommodate Lego.com and our testing
 
   // locator for continue button to proceed to correct lego site
   continueOnLego: By = By.xpath("//button[@data-test='age-gate-grown-up-cta']");
-
   // locator for just necessary cookies button
   cookies: By = By.xpath("//button[@data-test='cookie-necessary-button']");
-
-  // locator for lego logo home button
-  legoLogo: By = By.xpath("//a[@aria-label='Lego']");
-
-  // locator for search icon on homepage
+  // locator for search icon magnifying glass on homepage
   searchIcon: By = By.xpath('//button[@data-test="search-input-button"]');
-
   // locator for secondary 'search bar' on homepage
   searchInput: By = By.name("search");
-
-  // locator for piano picture thumbnail
-  grandPiano: By = By.xpath(
-    '(//a[@href="/en-us/product/grand-piano-21323"])[1]'
-  );
-
-  // locator for add to bag button found on item searched item display page
-  addToBag: By = By.xpath('//button[@data-test="add-to-bag"]');
-
-  // locator button to view current items in bag
-  viewMyBag: By = By.xpath('//a[@data-test="view-my-bag"]');
-
-  // locator for proceed to checkout button
-  checkoutButton: By = By.xpath('//a[@href="/en-us/checkout"]');
-
-  // locator to continue as guest through checkout phase
-  continueAsGuest: By = By.xpath('//button[@data-test="continue-guest"]');
-
-  // locator for first name input field
-  firstName: By = By.xpath(
-    '(//input[@class="Inputstyles__InputField-sc-12nwzc4-1 lkNQKR"])[1]'
-  );
-
-  // locator for last name input field
-  lastName: By = By.xpath(
-    '(//input[@class="Inputstyles__InputField-sc-12nwzc4-1 lkNQKR"])[2]'
-  );
+  // locater for adding Grand Piano text
+  grandPiano: By = By.xpath("//img[@alt='Grand Piano'");
+  // locator for piano picture thumbnail which takes you to piano page
   grandPianoImage: By = By.xpath(
     '(//a[@href="/en-us/product/grand-piano-21323"])[1]'
   );
   // locator points to heart button icon for wishlist
   addToWishlist: By = By.xpath("(//button[@data-test='add-to-wishlist'])[1]");
   // locator takes user to wishlist page
-  myWishlist: By = By.xpath(
-    "(//a[@class='MainBarstyles__StyledLink-sc-1cg7sjw-17 cXsuwu'])[1]"
-  );
+  myWishlist: By = By.xpath("a[data-test='util-bar-wishlist']");
   // locator lets user add item from wishlist to My Bag (cart)
-  addToBagFromWishlist: By = By.xpath("//button[@title='Add to Bag']");
+  addToBag: By = By.xpath("button[data-test='add-to-cart-from-wishlist']");
   // locator takes user to My Bag (cart)
-  myBag: By = By.xpath("//a[@aria-label='My Bag']");
+  myBag: By = By.xpath("a[data-test='util-bar-cart']");
   // locator moves item back to wishlist from cart
   moveToWishlist: By = By.xpath("//button[@data-test='move-to-wishlist']");
   // locator deletes item from wishlist
@@ -76,8 +43,23 @@ export class Lego {
 
   //Below is a list of async functions that we will use. More need to be added based on what test we will perform
 
+  /**
+   * This navigates to https://www.lego.com/en-us.
+   * First, the continue on lego.com button will be clicked to proceed on the correct site.
+   * Second, the nessary cookies button will be clicked to lead us to the landing page.
+   * Third, the search container will be clicked to enter in Grand Piano.
+   * Forth, a pop down suggestion will appear with Grand Piano as the first option.
+   * Sixth, Grand Piano page will load.
+   * Seventh, the heart wishlist icon can now be clicked to apply item to wishlist.
+   * Eighth, the Wishlist will now show 1 item added.
+   * Ninth, user will now click on the wishlist icon in yellow banner.
+   * Tenth, user will be taken to wishlist page which shows the item they tagged.
+   *
+   */
+
   async navigate() {
     await this.driver.get(this.url);
+
     await this.driver.wait(until.elementLocated(this.continueOnLego));
     await this.driver.wait(
       until.elementIsVisible(await this.driver.findElement(this.continueOnLego))
@@ -89,12 +71,6 @@ export class Lego {
       until.elementIsVisible(await this.driver.findElement(this.cookies))
     );
     await this.driver.findElement(this.cookies).click();
-
-    await this.driver.wait(until.elementLocated(this.searchIcon));
-    await this.driver.wait(
-      until.elementIsVisible(await this.driver.findElement(this.searchIcon))
-    );
-    await this.driver.findElement(this.searchIcon).click();
   }
 
   async sendKeys(elementBy: By, keys) {
@@ -102,7 +78,21 @@ export class Lego {
     return this.driver.findElement(elementBy).sendKeys(keys);
   }
 
-  async continueProcess() {
+  async;
+
+  async wishlist() {
+    await this.driver.wait(until.elementLocated(this.searchIcon));
+    await this.driver.wait(
+      until.elementIsVisible(await this.driver.findElement(this.searchIcon))
+    );
+    await this.driver.findElement(this.searchIcon).click();
+
+    await this.driver.wait(until.elementLocated(this.searchInput));
+    await this.driver.wait(
+      until.elementIsVisible(await this.driver.findElement(this.searchInput))
+    );
+    await this.driver.findElement(this.searchInput).click();
+
     await this.driver.wait(until.elementLocated(this.grandPiano));
     await this.driver.wait(
       until.elementIsVisible(await this.driver.findElement(this.grandPiano))
@@ -129,44 +119,30 @@ export class Lego {
     );
     await this.driver.findElement(this.myWishlist).click();
 
-    await this.driver.wait(until.elementLocated(this.addToBag));
+    await this.driver.wait(until.elementLocated(this.myBag));
     await this.driver.wait(
-      until.elementIsVisible(await this.driver.findElement(this.addToBag))
+      until.elementIsVisible(await this.driver.findElement(this.myBag))
     );
-    await this.driver.findElement(this.addToBag).click();
+    await this.driver.findElement(this.myBag).click();
 
-    await this.driver.wait(until.elementLocated(this.viewMyBag));
+    await this.driver.wait(until.elementLocated(this.moveToWishlist));
     await this.driver.wait(
-      until.elementIsVisible(await this.driver.findElement(this.viewMyBag))
+      until.elementIsVisible(await this.driver.findElement(this.moveToWishlist))
     );
-    await this.driver.findElement(this.viewMyBag).click();
+    await this.driver.findElement(this.moveToWishlist).click();
 
-    await this.driver.wait(until.elementLocated(this.checkoutButton));
+    await this.driver.wait(until.elementLocated(this.moveToWishlist));
     await this.driver.wait(
-      until.elementIsVisible(await this.driver.findElement(this.checkoutButton))
+      until.elementIsVisible(await this.driver.findElement(this.moveToWishlist))
     );
-    await this.driver.findElement(this.checkoutButton).click();
-
-    await this.driver.sleep(3000);
-
-    await this.driver.wait(until.elementLocated(this.continueAsGuest));
-    await this.driver.wait(
-      until.elementIsVisible(
-        await this.driver.findElement(this.continueAsGuest)
-      )
-    );
-    await this.driver.findElement(this.continueAsGuest).click();
+    await this.driver.findElement(this.moveToWishlist).click();
   }
 
-  async typeFirstName(text: string) {
-    return this.sendKeys(this.firstName, `${text}`);
-  }
-  async typeLastName(text: string) {
-    return this.sendKeys(this.lastName, `${text}`);
-  }
+  // async typeGrandPiano(text: string) {
+  // return this.driver.findElement(elementBy).sendKeys(keys);
+  // }
 
-  async click(elementBy: By) {
-    await this.driver.wait(until.elementLocated(elementBy));
-    return this.driver.findElement(elementBy).click();
-  }
+  /**
+   *
+   */
 }
