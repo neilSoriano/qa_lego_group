@@ -7,10 +7,13 @@ const driver: WebDriver = new Builder()
 const page = new Lego(driver);
 
 
-//Bioler Plate above
-//Below we will compile our testing
+//Boiler Plate above
+//Below we will compile our testing phase
 
-test("Test that a guest account can choose an item and continue through the Checkout process", async () => {
+//The test below will automate as a user and continue through guest checkout and then return to bag once the payment section is shown
+//This test will not actually buy the item that was selected
+
+test("Test that a guest account can choose an item and continue through the Checkout process with no errors", async () => {
   await page.checkoutProcess();
   await page.sendKeys(page.searchInput,"Grand Piano\n");
   await driver.sleep(3000);

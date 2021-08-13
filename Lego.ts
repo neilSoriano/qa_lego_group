@@ -8,7 +8,7 @@ export class Lego {
 
     url: string = "https://www.lego.com/en-us";
 
-    //Below we should change the variables for our xpaths to accommodate Lego.com and our testing
+    //Below we should change the selectors for our xpaths to accommodate Lego.com and our testing
 
 
     // locator for continue button to proceed to correct lego site
@@ -84,6 +84,9 @@ export class Lego {
 
 //Below is a list of async functions that we will use. More need to be added based on what test we will perform
 
+//The async function checkoutProcess will bypass the cookies pop-up window on the Lego site
+//This function will then look for the Lego homepage button to assure we are on the right site and click the search field
+
     async checkoutProcess() {
         await this.driver.get(this.url);
         await this.driver.sleep(10000);
@@ -105,7 +108,9 @@ export class Lego {
     }
 
     
-
+// The async function continueProcess will navigate to the 'Grand Piano' item page and then will add it to the bag
+// A pop-up will show on the Lego site asking if the user would like to continue or go to bag
+// The function will then continue to the bag and then click the checkout button while continuing as a guest
     
         async continueProcess() {
         await this.driver.sleep(2000);
@@ -138,7 +143,7 @@ export class Lego {
     }
 
 
-
+//The async function below will allow you to type into the input fields when the shipping info page appears
 
 async typeFirstName(text: string) {
     return this.sendKeys(this.firstName, `${text}`);
@@ -153,6 +158,8 @@ async typeaddressField(text: string) {
     return this.sendKeys(this.addressField, `${text}`);
 
 }
+
+//The async function for continueProcess2 will continue through the rest of the shipping info and choose a shipping method
 
 async continueProcess2 () {
 
@@ -181,7 +188,7 @@ async continueProcess2 () {
     await this.driver.findElement(this.contactContinue_B).click();
 
 }
-
+//The two async functions below will allow text to be entered in the email and mobile phone number field
 async typeemailField(text: string) {
     return this.sendKeys(this.emailField, `${text}`);
 
@@ -191,7 +198,7 @@ async typeemailField(text: string) {
         return this.sendKeys(this.mobileNumber, `${text}`);
 
 }
-
+//The endCheckout async will redirect the user back to the bag page
 async endCheckout () {
 
     await this.driver.wait(until.elementLocated(this.backToBag));
@@ -205,7 +212,7 @@ async endCheckout () {
 
 
 
-
+//Asyne senKeys and click are both needed to click and enter information on the website
 
 async sendKeys(elementBy: By, keys) {
     await this.driver.wait(until.elementLocated(elementBy));
