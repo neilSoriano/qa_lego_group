@@ -105,6 +105,8 @@ export class Lego {
     /**
      * 
      * @returns Returns the price in string format of the product without the $.
+     * @example
+     * await page.getProductPrice();
      */
     async getProductPrice() {
         await this.driver.wait(until.elementLocated(this.hogwartsPrice));
@@ -115,6 +117,8 @@ export class Lego {
     /**
      * 
      * @returns Returns the max age listed on the product.
+     * @example 
+     * await page.getMaxAge();
      */
     async getMaxAge() {
         await this.driver.wait(until.elementLocated(this.productAgeGroup));
